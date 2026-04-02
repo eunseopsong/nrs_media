@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>nrs_mediapipe</name>
+  <version>0.0.1</version>
+  <description>MediaPipe + RealSense ROS2 package</description>
+
+  <maintainer email="eunseop@example.com">eunseop</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_python</buildtool_depend>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+  <test_depend>python3-pytest</test_depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
