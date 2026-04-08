@@ -1,0 +1,13 @@
+package.xml
+setup.cfg
+setup.py
+nrs_mediapipe/__init__.py
+nrs_mediapipe/realsense_mediapipe_pose.py
+nrs_mediapipe.egg-info/PKG-INFO
+nrs_mediapipe.egg-info/SOURCES.txt
+nrs_mediapipe.egg-info/dependency_links.txt
+nrs_mediapipe.egg-info/entry_points.txt
+nrs_mediapipe.egg-info/requires.txt
+nrs_mediapipe.egg-info/top_level.txt
+nrs_mediapipe.egg-info/zip-safe
+resource/nrs_mediapipe

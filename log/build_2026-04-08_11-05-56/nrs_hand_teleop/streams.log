@@ -1,0 +1,19 @@
+[0.485s] Invoking command in '/home/eunseop/nrs_media/build/nrs_hand_teleop': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_hand_teleop/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_hand_teleop/build --no-deps symlink_data
+[0.556s] /home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/setuptools/_distutils/dist.py:289: UserWarning: Unknown distribution option: 'tests_require'
+[0.556s]   warnings.warn(msg)
+[0.611s] running develop
+[0.672s] running egg_info
+[0.677s] writing nrs_hand_teleop.egg-info/PKG-INFO
+[0.678s] writing dependency_links to nrs_hand_teleop.egg-info/dependency_links.txt
+[0.678s] writing entry points to nrs_hand_teleop.egg-info/entry_points.txt
+[0.678s] writing requirements to nrs_hand_teleop.egg-info/requires.txt
+[0.678s] writing top-level names to nrs_hand_teleop.egg-info/top_level.txt
+[0.688s] reading manifest file 'nrs_hand_teleop.egg-info/SOURCES.txt'
+[0.689s] writing manifest file 'nrs_hand_teleop.egg-info/SOURCES.txt'
+[0.695s] running build_ext
+[0.695s] Creating /home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages/nrs-hand-teleop.egg-link (link to .)
+[0.695s] Installing hand_teleop_node script to /home/eunseop/nrs_media/install/nrs_hand_teleop/lib/nrs_hand_teleop
+[0.696s] 
+[0.696s] Installed /home/eunseop/nrs_media/build/nrs_hand_teleop
+[0.696s] running symlink_data
+[0.723s] Invoked command in '/home/eunseop/nrs_media/build/nrs_hand_teleop' returned '0': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_hand_teleop/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_hand_teleop/build --no-deps symlink_data

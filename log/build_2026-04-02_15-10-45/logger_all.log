@@ -1,0 +1,235 @@
+[0.082s] DEBUG:colcon:Command line arguments: ['/home/eunseop/anaconda3/envs/env_hand/bin/colcon', 'build', '--symlink-install']
+[0.082s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=16, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x76cbb13bcfd0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x76cbb15b6530>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x76cbb15b6530>>)
+[0.103s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.103s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.103s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.103s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.103s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.103s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.103s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/eunseop/nrs_media'
+[0.103s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.104s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ignore_ament_install'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_pkg']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_pkg'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['colcon_meta']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'colcon_meta'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['ros']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'ros'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['cmake', 'python']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'cmake'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extensions ['python_setup_py']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src) by extension 'python_setup_py'
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extensions ['ignore', 'ignore_ament_install']
+[0.120s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extension 'ignore'
+[0.121s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extension 'ignore_ament_install'
+[0.121s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extensions ['colcon_pkg']
+[0.121s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extension 'colcon_pkg'
+[0.121s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extensions ['colcon_meta']
+[0.121s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extension 'colcon_meta'
+[0.121s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extensions ['ros']
+[0.121s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_hand_teleop) by extension 'ros'
+[0.122s] DEBUG:colcon.colcon_core.package_identification:Package 'src/nrs_hand_teleop' with type 'ros.ament_python' and name 'nrs_hand_teleop'
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extensions ['ignore', 'ignore_ament_install']
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extension 'ignore'
+[0.122s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extension 'ignore_ament_install'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extensions ['colcon_pkg']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extension 'colcon_pkg'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extensions ['colcon_meta']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extension 'colcon_meta'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extensions ['ros']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_media_bringup) by extension 'ros'
+[0.123s] DEBUG:colcon.colcon_core.package_identification:Package 'src/nrs_media_bringup' with type 'ros.ament_python' and name 'nrs_media_bringup'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extensions ['ignore', 'ignore_ament_install']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extension 'ignore'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extension 'ignore_ament_install'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extensions ['colcon_pkg']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extension 'colcon_pkg'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extensions ['colcon_meta']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extension 'colcon_meta'
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extensions ['ros']
+[0.123s] Level 1:colcon.colcon_core.package_identification:_identify(src/nrs_mediapipe) by extension 'ros'
+[0.123s] DEBUG:colcon.colcon_core.package_identification:Package 'src/nrs_mediapipe' with type 'ros.ament_python' and name 'nrs_mediapipe'
+[0.124s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.124s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.124s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.124s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.124s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'cmake_target' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'cmake_clean_cache' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'cmake_clean_first' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'cmake_force_configure' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'ament_cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'catkin_cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_hand_teleop' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.135s] DEBUG:colcon.colcon_core.verb:Building package 'nrs_hand_teleop' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/eunseop/nrs_media/build/nrs_hand_teleop', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/eunseop/nrs_media/install/nrs_hand_teleop', 'merge_install': False, 'path': '/home/eunseop/nrs_media/src/nrs_hand_teleop', 'symlink_install': True, 'test_result_base': None}
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'cmake_target' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'cmake_clean_cache' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'cmake_clean_first' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'cmake_force_configure' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'ament_cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'catkin_cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_media_bringup' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.135s] DEBUG:colcon.colcon_core.verb:Building package 'nrs_media_bringup' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/eunseop/nrs_media/build/nrs_media_bringup', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/eunseop/nrs_media/install/nrs_media_bringup', 'merge_install': False, 'path': '/home/eunseop/nrs_media/src/nrs_media_bringup', 'symlink_install': True, 'test_result_base': None}
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'cmake_target' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'cmake_clean_cache' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'cmake_clean_first' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'cmake_force_configure' from command line to 'False'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'ament_cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'catkin_cmake_args' from command line to 'None'
+[0.135s] Level 5:colcon.colcon_core.verb:set package 'nrs_mediapipe' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.135s] DEBUG:colcon.colcon_core.verb:Building package 'nrs_mediapipe' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/eunseop/nrs_media/build/nrs_mediapipe', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/eunseop/nrs_media/install/nrs_mediapipe', 'merge_install': False, 'path': '/home/eunseop/nrs_media/src/nrs_mediapipe', 'symlink_install': True, 'test_result_base': None}
+[0.135s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.136s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.136s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/eunseop/nrs_media/src/nrs_hand_teleop' with build type 'ament_python'
+[0.136s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_hand_teleop', 'ament_prefix_path')
+[0.137s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.137s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/hook/ament_prefix_path.ps1'
+[0.138s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/hook/ament_prefix_path.dsv'
+[0.138s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/hook/ament_prefix_path.sh'
+[0.139s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.139s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.142s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/eunseop/nrs_media/src/nrs_media_bringup' with build type 'ament_python'
+[0.142s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_media_bringup', 'ament_prefix_path')
+[0.143s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/hook/ament_prefix_path.ps1'
+[0.143s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/hook/ament_prefix_path.dsv'
+[0.143s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/hook/ament_prefix_path.sh'
+[0.144s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.144s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.146s] INFO:colcon.colcon_ros.task.ament_python.build:Building ROS package in '/home/eunseop/nrs_media/src/nrs_mediapipe' with build type 'ament_python'
+[0.146s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_mediapipe', 'ament_prefix_path')
+[0.146s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/hook/ament_prefix_path.ps1'
+[0.147s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/hook/ament_prefix_path.dsv'
+[0.147s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/hook/ament_prefix_path.sh'
+[0.147s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.147s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.250s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/eunseop/nrs_media/src/nrs_hand_teleop'
+[0.250s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.250s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.336s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/eunseop/nrs_media/src/nrs_media_bringup'
+[0.336s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.336s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.424s] INFO:colcon.colcon_core.task.python.build:Building Python package in '/home/eunseop/nrs_media/src/nrs_mediapipe'
+[0.425s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.425s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.607s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/eunseop/nrs_media/build/nrs_hand_teleop': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_hand_teleop/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_hand_teleop/build --no-deps symlink_data
+[0.609s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/eunseop/nrs_media/build/nrs_media_bringup': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_media_bringup/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_media_bringup/build --no-deps symlink_data
+[0.610s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/eunseop/nrs_media/build/nrs_mediapipe': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_mediapipe/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_mediapipe/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_mediapipe/build --no-deps symlink_data
+[0.820s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_mediapipe', 'pythonpath_develop')
+[0.821s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/build/nrs_mediapipe/share/nrs_mediapipe/hook/pythonpath_develop.ps1'
+[0.821s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/eunseop/nrs_media/build/nrs_mediapipe' returned '0': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_mediapipe/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_mediapipe/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_mediapipe/build --no-deps symlink_data
+[0.822s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/build/nrs_mediapipe/share/nrs_mediapipe/hook/pythonpath_develop.dsv'
+[0.822s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/build/nrs_mediapipe/share/nrs_mediapipe/hook/pythonpath_develop.sh'
+[0.823s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_mediapipe' for CMake module files
+[0.823s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_mediapipe' for CMake config files
+[0.824s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_mediapipe/lib'
+[0.824s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_mediapipe/bin'
+[0.824s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_mediapipe/lib/pkgconfig/nrs_mediapipe.pc'
+[0.824s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_mediapipe/lib/python3.10/site-packages'
+[0.824s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_mediapipe', 'pythonpath')
+[0.824s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/hook/pythonpath.ps1'
+[0.824s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/hook/pythonpath.dsv'
+[0.824s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/hook/pythonpath.sh'
+[0.825s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_mediapipe/bin'
+[0.825s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(nrs_mediapipe)
+[0.825s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/package.ps1'
+[0.826s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/package.dsv'
+[0.826s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/package.sh'
+[0.826s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/package.bash'
+[0.827s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_mediapipe/share/nrs_mediapipe/package.zsh'
+[0.827s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/eunseop/nrs_media/install/nrs_mediapipe/share/colcon-core/packages/nrs_mediapipe)
+[0.828s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_hand_teleop', 'pythonpath_develop')
+[0.828s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/build/nrs_hand_teleop/share/nrs_hand_teleop/hook/pythonpath_develop.ps1'
+[0.829s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/eunseop/nrs_media/build/nrs_hand_teleop' returned '0': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_hand_teleop/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_hand_teleop/build --no-deps symlink_data
+[0.829s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/build/nrs_hand_teleop/share/nrs_hand_teleop/hook/pythonpath_develop.dsv'
+[0.829s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/build/nrs_hand_teleop/share/nrs_hand_teleop/hook/pythonpath_develop.sh'
+[0.829s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_hand_teleop' for CMake module files
+[0.829s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_hand_teleop' for CMake config files
+[0.829s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_hand_teleop/lib'
+[0.829s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_hand_teleop/bin'
+[0.829s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/pkgconfig/nrs_hand_teleop.pc'
+[0.830s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages'
+[0.830s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_hand_teleop', 'pythonpath')
+[0.830s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/hook/pythonpath.ps1'
+[0.830s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/hook/pythonpath.dsv'
+[0.830s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/hook/pythonpath.sh'
+[0.830s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_hand_teleop/bin'
+[0.830s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(nrs_hand_teleop)
+[0.831s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/package.ps1'
+[0.831s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/package.dsv'
+[0.831s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/package.sh'
+[0.831s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/package.bash'
+[0.832s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop/package.zsh'
+[0.832s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/eunseop/nrs_media/install/nrs_hand_teleop/share/colcon-core/packages/nrs_hand_teleop)
+[0.832s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_media_bringup', 'pythonpath_develop')
+[0.832s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/build/nrs_media_bringup/share/nrs_media_bringup/hook/pythonpath_develop.ps1'
+[0.832s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/build/nrs_media_bringup/share/nrs_media_bringup/hook/pythonpath_develop.dsv'
+[0.832s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/eunseop/nrs_media/build/nrs_media_bringup' returned '0': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_media_bringup/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_media_bringup/build --no-deps symlink_data
+[0.833s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/build/nrs_media_bringup/share/nrs_media_bringup/hook/pythonpath_develop.sh'
+[0.833s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_media_bringup' for CMake module files
+[0.833s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_media_bringup' for CMake config files
+[0.833s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_media_bringup/lib'
+[0.833s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_media_bringup/bin'
+[0.833s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_media_bringup/lib/pkgconfig/nrs_media_bringup.pc'
+[0.833s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages'
+[0.834s] Level 1:colcon.colcon_core.shell:create_environment_hook('nrs_media_bringup', 'pythonpath')
+[0.834s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/hook/pythonpath.ps1'
+[0.834s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/hook/pythonpath.dsv'
+[0.834s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/hook/pythonpath.sh'
+[0.834s] Level 1:colcon.colcon_core.environment:checking '/home/eunseop/nrs_media/install/nrs_media_bringup/bin'
+[0.834s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(nrs_media_bringup)
+[0.835s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/package.ps1'
+[0.835s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/package.dsv'
+[0.835s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/package.sh'
+[0.835s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/package.bash'
+[0.836s] INFO:colcon.colcon_core.shell:Creating package script '/home/eunseop/nrs_media/install/nrs_media_bringup/share/nrs_media_bringup/package.zsh'
+[0.836s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/eunseop/nrs_media/install/nrs_media_bringup/share/colcon-core/packages/nrs_media_bringup)
+[0.836s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[0.836s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[0.836s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[0.836s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[0.837s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.notify2': 'notify2' not found
+[0.837s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[0.837s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[0.837s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify_send'
+[0.843s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[0.844s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/eunseop/nrs_media/install/local_setup.ps1'
+[0.844s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/eunseop/nrs_media/install/_local_setup_util_ps1.py'
+[0.845s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/eunseop/nrs_media/install/setup.ps1'
+[0.846s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/eunseop/nrs_media/install/local_setup.sh'
+[0.846s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/eunseop/nrs_media/install/_local_setup_util_sh.py'
+[0.846s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/eunseop/nrs_media/install/setup.sh'
+[0.847s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/eunseop/nrs_media/install/local_setup.bash'
+[0.848s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/eunseop/nrs_media/install/setup.bash'
+[0.848s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/eunseop/nrs_media/install/local_setup.zsh'
+[0.849s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/eunseop/nrs_media/install/setup.zsh'

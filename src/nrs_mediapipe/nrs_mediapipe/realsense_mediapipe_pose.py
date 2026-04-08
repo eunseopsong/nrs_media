@@ -16,13 +16,15 @@ class UnifiedVisionNodeLightV7(Node):
     def __init__(self):
         super().__init__('nrs_vision_node_light_v7')
 
+        # Existing publishers
         self.gesture_pub = self.create_publisher(String, '/hand_gesture', 10)
         self.target_pub = self.create_publisher(Point, '/target_pose', 10)
         self.guided_pub = self.create_publisher(Point, '/guided_target', 10)
         self.surface_cmd_pub = self.create_publisher(String, '/surface_command', 10)
 
-        # Added: upper body landmarks publisher
+        # Added publishers
         self.upper_body_pub = self.create_publisher(String, '/upper_body_landmarks', 10)
+        self.hand_landmarks_pub = self.create_publisher(String, '/mediapipe_hand_landmarks', 10)
 
         self.robot_state = "NOT READY"
         self.create_subscription(String, '/robot_status', self.status_cb, 10)
@@ -39,7 +41,7 @@ class UnifiedVisionNodeLightV7(Node):
         self.launch_triggered = False
         self.last_left_gesture = "None"
 
-        # MediaPipe Hands (keep all existing gesture functionality)
+        # MediaPipe Hands
         self.mp_hands = mp.solutions.hands
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_drawing_styles = mp.solutions.drawing_styles
@@ -50,7 +52,7 @@ class UnifiedVisionNodeLightV7(Node):
             min_tracking_confidence=0.5
         )
 
-        # Added: MediaPipe Pose for upper-body landmarks
+        # MediaPipe Pose
         self.mp_pose = mp.solutions.pose
         self.pose = self.mp_pose.Pose(
             static_image_mode=False,
@@ -61,6 +63,7 @@ class UnifiedVisionNodeLightV7(Node):
             min_tracking_confidence=0.5
         )
 
+        # RealSense
         self.pipeline = rs.pipeline()
         config = rs.config()
         config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
@@ -70,6 +73,14 @@ class UnifiedVisionNodeLightV7(Node):
             profile = self.pipeline.start(config)
             self.align = rs.align(rs.stream.color)
             self.intr = profile.get_stream(rs.stream.color).as_video_stream_profile().get_intrinsics()
+
+            # Warm-up frames
+            for _ in range(10):
+                try:
+                    self.pipeline.wait_for_frames(timeout_ms=1000)
+                except RuntimeError:
+                    pass
+
         except Exception as e:
             self.get_logger().error(f"RealSense Error: {e}")
             sys.exit(1)
@@ -77,7 +88,7 @@ class UnifiedVisionNodeLightV7(Node):
         self.is_running = True
         self.vision_thread = threading.Thread(target=self.camera_loop)
         self.vision_thread.start()
-        self.get_logger().info("✅ LIGHT Vision V7 Started (Hands + Upper-Body Pose)")
+        self.get_logger().info("✅ LIGHT Vision V7 Started (Hands + Upper-Body Pose + Hand Landmarks Pub)")
 
     def status_cb(self, msg):
         self.robot_state = msg.data
@@ -112,11 +123,17 @@ class UnifiedVisionNodeLightV7(Node):
             return "pointing"
         return "None"
 
+    def serialize_hand_landmarks(self, hand_landmarks):
+        pts = []
+        for lm in hand_landmarks.landmark:
+            pts.append({
+                "x": float(lm.x),
+                "y": float(lm.y),
+                "z": float(lm.z),
+            })
+        return pts
+
     def extract_upper_body_landmarks(self, pose_landmarks, img_w, img_h):
-        """
-        Extract only upper-body related landmarks from MediaPipe Pose.
-        Returns a dict with normalized coords, pixel coords, z, visibility.
-        """
         lm = pose_landmarks.landmark
         P = self.mp_pose.PoseLandmark
 
@@ -146,7 +163,6 @@ class UnifiedVisionNodeLightV7(Node):
                 "y_px": py,
             }
 
-        # Optional derived points
         ls = result["left_shoulder"]
         rs = result["right_shoulder"]
         lh = result["left_hip"]
@@ -173,9 +189,6 @@ class UnifiedVisionNodeLightV7(Node):
         return result
 
     def draw_upper_body_pose(self, image, pose_landmarks):
-        """
-        Draw only upper-body pose connections and keypoints.
-        """
         lm = pose_landmarks.landmark
         P = self.mp_pose.PoseLandmark
 
@@ -194,7 +207,6 @@ class UnifiedVisionNodeLightV7(Node):
 
         h, w = image.shape[:2]
 
-        # draw connections
         for a, b in upper_body_connections:
             pa = lm[a]
             pb = lm[b]
@@ -204,7 +216,6 @@ class UnifiedVisionNodeLightV7(Node):
                 xb, yb = int(pb.x * w), int(pb.y * h)
                 cv2.line(image, (xa, ya), (xb, yb), (255, 255, 0), 2)
 
-        # draw selected landmarks
         selected_points = [
             P.NOSE,
             P.LEFT_SHOULDER, P.RIGHT_SHOULDER,
@@ -230,26 +241,37 @@ class UnifiedVisionNodeLightV7(Node):
                 continue
             prev_time = curr_time
 
-            frames = self.pipeline.wait_for_frames()
+            try:
+                frames = self.pipeline.wait_for_frames(timeout_ms=3000)
+            except RuntimeError as e:
+                self.get_logger().warn(f"RealSense frame timeout: {e}")
+                continue
+
             aligned = self.align.process(frames)
             color_frame = aligned.get_color_frame()
             depth_frame = aligned.get_depth_frame()
 
             if not color_frame or not depth_frame:
+                self.get_logger().warn("Empty color/depth frame received")
                 continue
 
             image = np.asanyarray(color_frame.get_data())
             small_img = cv2.resize(image, (320, 240))
             rgb_small = cv2.cvtColor(small_img, cv2.COLOR_BGR2RGB)
 
-            # Process both Hands and Pose on the same resized frame
             hand_results = self.hands.process(rgb_small)
             pose_results = self.pose.process(rgb_small)
 
             gestures = {"Left": "None", "Right": "None"}
 
+            # Raw handedness 기준 landmark publish payload
+            hand_payload = {
+                "left": None,
+                "right": None
+            }
+
             # -----------------------------
-            # Pose processing (newly added)
+            # Pose processing
             # -----------------------------
             if pose_results.pose_landmarks:
                 upper_body_data = self.extract_upper_body_landmarks(
@@ -260,7 +282,6 @@ class UnifiedVisionNodeLightV7(Node):
                 self.upper_body_pub.publish(String(data=json.dumps(upper_body_data)))
                 self.draw_upper_body_pose(image, pose_results.pose_landmarks)
 
-                # Optional on-screen labels
                 for name in ["left_shoulder", "right_shoulder", "left_elbow", "right_elbow", "left_wrist", "right_wrist"]:
                     px = upper_body_data[name]["x_px"]
                     py = upper_body_data[name]["y_px"]
@@ -277,21 +298,28 @@ class UnifiedVisionNodeLightV7(Node):
                         )
 
             # -----------------------------
-            # Hands processing (original)
+            # Hands processing
             # -----------------------------
             if hand_results.multi_hand_landmarks:
                 for idx, hand_landmarks in enumerate(hand_results.multi_hand_landmarks):
-                    label = hand_results.multi_handedness[idx].classification[0].label
-                    gesture = self.recognize_gesture(hand_landmarks, label)
+                    raw_label = hand_results.multi_handedness[idx].classification[0].label
 
-                    # Keep original mirrored assignment logic exactly
-                    if label == "Right":
+                    # publish용은 raw label 그대로 사용
+                    if raw_label == "Left":
+                        hand_payload["left"] = self.serialize_hand_landmarks(hand_landmarks)
+                    elif raw_label == "Right":
+                        hand_payload["right"] = self.serialize_hand_landmarks(hand_landmarks)
+
+                    # 기존 gesture/GUI 로직은 기존 mirrored assignment 유지
+                    gesture = self.recognize_gesture(hand_landmarks, raw_label)
+
+                    if raw_label == "Right":
                         gestures["Left"] = gesture
                         if gesture == "pointing" and self.last_left_gesture != "pointing" and self.robot_state == "NOT READY":
                             self.current_idx = (self.current_idx + 1) % len(self.surfaces)
                         self.last_left_gesture = gesture
 
-                    elif label == "Left":
+                    elif raw_label == "Left":
                         gestures["Right"] = gesture
                         cx = int(hand_landmarks.landmark[8].x * 640)
                         cy = int(hand_landmarks.landmark[8].y * 480)
@@ -331,8 +359,13 @@ class UnifiedVisionNodeLightV7(Node):
                         self.mp_drawing_styles.get_default_hand_connections_style()
                     )
 
+            # Publish hand landmarks JSON every loop
+            self.hand_landmarks_pub.publish(String(data=json.dumps(hand_payload)))
+
+            # Existing gesture publish
             self.gesture_pub.publish(String(data=f"Left:{gestures['Left']},Right:{gestures['Right']}"))
 
+            # Existing launch trigger logic
             if gestures["Left"] == "okay" and gestures["Right"] == "okay":
                 if not self.launch_triggered and self.robot_state == "NOT READY":
                     msg = String()
@@ -371,10 +404,12 @@ class UnifiedVisionNodeLightV7(Node):
                             (flipped_pad[0], flipped_pad[1] - 10),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 255), 1)
 
-            # Additional info line for pose status
             pose_status = "ON" if pose_results.pose_landmarks else "OFF"
+            hand_status = "ON" if hand_results.multi_hand_landmarks else "OFF"
             cv2.putText(display, f"UPPER BODY POSE: {pose_status}", (10, 90),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
+            cv2.putText(display, f"HAND LANDMARK PUB: {hand_status}", (220, 90),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 200), 1)
 
             cv2.imshow('Vision V7', display)
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -382,7 +417,8 @@ class UnifiedVisionNodeLightV7(Node):
 
     def destroy_node(self):
         self.is_running = False
-        self.vision_thread.join()
+        if self.vision_thread.is_alive():
+            self.vision_thread.join()
         self.pipeline.stop()
         cv2.destroyAllWindows()
         self.hands.close()
@@ -399,6 +435,7 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == '__main__':

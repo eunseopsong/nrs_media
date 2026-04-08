@@ -1,0 +1,18 @@
+running develop
+running egg_info
+creating nrs_hand_teleop.egg-info
+writing nrs_hand_teleop.egg-info/PKG-INFO
+writing dependency_links to nrs_hand_teleop.egg-info/dependency_links.txt
+writing requirements to nrs_hand_teleop.egg-info/requires.txt
+writing top-level names to nrs_hand_teleop.egg-info/top_level.txt
+writing manifest file 'nrs_hand_teleop.egg-info/SOURCES.txt'
+reading manifest file 'nrs_hand_teleop.egg-info/SOURCES.txt'
+writing manifest file 'nrs_hand_teleop.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages/nrs-hand-teleop.egg-link (link to .)
+
+Installed /home/eunseop/nrs_media/build/nrs_hand_teleop
+running symlink_data
+creating /home/eunseop/nrs_media/install/nrs_hand_teleop/share/ament_index/resource_index/packages
+symbolically linking /home/eunseop/nrs_media/build/nrs_hand_teleop/resource/nrs_hand_teleop -> /home/eunseop/nrs_media/install/nrs_hand_teleop/share/ament_index/resource_index/packages
+symbolically linking /home/eunseop/nrs_media/build/nrs_hand_teleop/package.xml -> /home/eunseop/nrs_media/install/nrs_hand_teleop/share/nrs_hand_teleop

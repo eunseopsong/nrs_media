@@ -1,0 +1,15 @@
+[0.470s] Invoking command in '/home/eunseop/nrs_media/build/nrs_hand_teleop': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_hand_teleop/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_hand_teleop/build --no-deps symlink_data
+[0.591s] running develop
+[0.646s] running egg_info
+[0.651s] writing nrs_hand_teleop.egg-info/PKG-INFO
+[0.651s] writing dependency_links to nrs_hand_teleop.egg-info/dependency_links.txt
+[0.652s] writing requirements to nrs_hand_teleop.egg-info/requires.txt
+[0.652s] writing top-level names to nrs_hand_teleop.egg-info/top_level.txt
+[0.662s] reading manifest file 'nrs_hand_teleop.egg-info/SOURCES.txt'
+[0.662s] writing manifest file 'nrs_hand_teleop.egg-info/SOURCES.txt'
+[0.667s] running build_ext
+[0.668s] Creating /home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages/nrs-hand-teleop.egg-link (link to .)
+[0.668s] 
+[0.668s] Installed /home/eunseop/nrs_media/build/nrs_hand_teleop
+[0.668s] running symlink_data
+[0.692s] Invoked command in '/home/eunseop/nrs_media/build/nrs_hand_teleop' returned '0': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_hand_teleop/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_hand_teleop/build --no-deps symlink_data

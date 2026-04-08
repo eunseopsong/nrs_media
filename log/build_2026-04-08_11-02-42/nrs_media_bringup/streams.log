@@ -1,0 +1,16 @@
+[0.523s] Invoking command in '/home/eunseop/nrs_media/build/nrs_media_bringup': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_media_bringup/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_media_bringup/build --no-deps symlink_data
+[0.644s] running develop
+[0.700s] running egg_info
+[0.705s] writing nrs_media_bringup.egg-info/PKG-INFO
+[0.705s] writing dependency_links to nrs_media_bringup.egg-info/dependency_links.txt
+[0.706s] deleting nrs_media_bringup.egg-info/entry_points.txt
+[0.706s] writing requirements to nrs_media_bringup.egg-info/requires.txt
+[0.706s] writing top-level names to nrs_media_bringup.egg-info/top_level.txt
+[0.716s] reading manifest file 'nrs_media_bringup.egg-info/SOURCES.txt'
+[0.716s] writing manifest file 'nrs_media_bringup.egg-info/SOURCES.txt'
+[0.723s] running build_ext
+[0.723s] Creating /home/eunseop/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages/nrs-media-bringup.egg-link (link to .)
+[0.723s] 
+[0.723s] Installed /home/eunseop/nrs_media/build/nrs_media_bringup
+[0.723s] running symlink_data
+[0.756s] Invoked command in '/home/eunseop/nrs_media/build/nrs_media_bringup' returned '0': CONDA_PROMPT_MODIFIER=(env_hand) PYTHONPATH=/home/eunseop/nrs_media/build/nrs_media_bringup/prefix_override:/home/eunseop/anaconda3/envs/env_hand/lib/python3.10/site-packages/colcon_core/task/python/colcon_distutils_commands:/home/eunseop/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages:${PYTHONPATH} /home/eunseop/anaconda3/envs/env_hand/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/eunseop/nrs_media/build/nrs_media_bringup/build --no-deps symlink_data

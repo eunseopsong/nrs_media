@@ -1,0 +1,11 @@
+package.xml
+setup.cfg
+setup.py
+nrs_media_bringup/__init__.py
+nrs_media_bringup.egg-info/PKG-INFO
+nrs_media_bringup.egg-info/SOURCES.txt
+nrs_media_bringup.egg-info/dependency_links.txt
+nrs_media_bringup.egg-info/requires.txt
+nrs_media_bringup.egg-info/top_level.txt
+nrs_media_bringup.egg-info/zip-safe
+resource/nrs_media_bringup

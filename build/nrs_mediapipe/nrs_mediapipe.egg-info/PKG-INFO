@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: nrs_mediapipe
+Version: 0.0.1
+Summary: MediaPipe + RealSense ROS2 package
+Maintainer: eunseop
+Maintainer-email: eunseop@example.com
+License: Apache License 2.0
+Requires-Dist: setuptools
+Dynamic: license
+Dynamic: maintainer
+Dynamic: maintainer-email
+Dynamic: requires-dist
+Dynamic: summary
