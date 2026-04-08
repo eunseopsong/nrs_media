@@ -1,2 +1,0 @@
-[console_scripts]
-hand_teleop_node = nrs_hand_teleop.hand_teleop_node:main

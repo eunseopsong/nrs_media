@@ -1,2 +1,0 @@
-[console_scripts]
-realsense_mediapipe_pose = nrs_mediapipe.realsense_mediapipe_pose:main

@@ -1,1 +1,0 @@
-/home/eunseop/nrs_media/src/nrs_hand_teleop/setup.py

@@ -1,1 +1,0 @@
-/home/eunseop/nrs_media/src/nrs_media_bringup/setup.py
