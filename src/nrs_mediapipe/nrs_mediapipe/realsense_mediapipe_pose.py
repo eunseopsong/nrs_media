@@ -11,6 +11,7 @@ from geometry_msgs.msg import Point
 import threading
 import time
 
+print("💡 현재 인식된 mediapipe 경로:", mp.__file__) # 이 줄을 추가하세요!
 
 class UnifiedVisionNodeLightV7(Node):
     def __init__(self):
