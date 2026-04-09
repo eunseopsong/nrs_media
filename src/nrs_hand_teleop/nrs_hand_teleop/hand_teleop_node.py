@@ -2,6 +2,7 @@ import json
 import math
 from typing import Dict, List, Optional, Tuple
 
+
 import rclpy
 from rclpy.node import Node
 from rclpy.duration import Duration
