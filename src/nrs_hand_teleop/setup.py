@@ -17,7 +17,6 @@ setup(
     maintainer_email='eunseop@example.com',
     description='MediaPipe hand landmarks to dual-arm hand teleoperation targets',
     license='Apache License 2.0',
-    tests_require=['pytest'],
     entry_points={
         'console_scripts': [
             'hand_teleop_node = nrs_hand_teleop.hand_teleop_node:main',

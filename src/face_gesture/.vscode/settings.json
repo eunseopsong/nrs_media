@@ -1,0 +1,26 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/nrs_vision/nrs_media/build/nrs_mediapipe",
+        "/home/nrs_vision/nrs_media/install/nrs_mediapipe/lib/python3.10/site-packages",
+        "/home/nrs_vision/nrs_media/build/nrs_media_bringup",
+        "/home/nrs_vision/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages",
+        "/home/nrs_vision/nrs_media/build/nrs_hand_teleop",
+        "/home/nrs_vision/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages",
+        "/home/nrs_vision/nrs_media/build/face_gesture",
+        "/home/nrs_vision/nrs_media/install/face_gesture/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/nrs_vision/nrs_media/build/nrs_mediapipe",
+        "/home/nrs_vision/nrs_media/install/nrs_mediapipe/lib/python3.10/site-packages",
+        "/home/nrs_vision/nrs_media/build/nrs_media_bringup",
+        "/home/nrs_vision/nrs_media/install/nrs_media_bringup/lib/python3.10/site-packages",
+        "/home/nrs_vision/nrs_media/build/nrs_hand_teleop",
+        "/home/nrs_vision/nrs_media/install/nrs_hand_teleop/lib/python3.10/site-packages",
+        "/home/nrs_vision/nrs_media/build/face_gesture",
+        "/home/nrs_vision/nrs_media/install/face_gesture/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
