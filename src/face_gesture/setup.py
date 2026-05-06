@@ -24,6 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            # [추가] ROS 2가 실행할 노드 이름과 파이썬 파일의 위치를 연결해 줍니다.
+            'face_gesture_node = face_gesture.face_gesture_node:main'
         ],
     },
 )
