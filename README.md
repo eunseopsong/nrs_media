@@ -1,143 +1,135 @@
 # nrs_media
 
-`nrs_media` is a ROS 2 Humble workspace for MediaPipe-based human hand perception and robot-hand teleoperation.
+`nrs_media`는 ROS 2 Humble 기반의 MediaPipe/RealSense 비전 워크스페이스입니다. RealSense 카메라에서 얼굴, 손, 상체 랜드마크를 추출하고, 이를 ROS 토픽으로 발행하거나 로봇 손/몸체 제어 명령으로 변환합니다.
 
-This repository currently focuses on:
+이 README는 conda 가상 환경 생성부터 의존성 설치, 워크스페이스 빌드, 노드 실행까지 한 번에 따라 할 수 있도록 정리되어 있습니다.
 
-- **`nrs_mediapipe`**: RealSense + MediaPipe perception
-- **`nrs_hand_teleop`**: converting MediaPipe hand landmarks into robot hand joint targets
-- **`nrs_media_bringup`**: reserved package for launch/config integration
-
-The current workflow is:
-
-```text
-RealSense (D435)
-    -> MediaPipe Hands / Pose
-    -> /mediapipe_hand_landmarks
-    -> nrs_hand_teleop
-    -> /forward_hand_joint_targets
-    -> dualarm_forcecon
-```
-
----
-
-# 1. Repository Structure Summary
-
-## Workspace structure
+## 패키지 구성
 
 ```text
 nrs_media/
-├── src/
-│   ├── nrs_mediapipe/
-│   │   ├── package.xml
-│   │   ├── setup.py
-│   │   ├── setup.cfg
-│   │   ├── resource/
-│   │   └── nrs_mediapipe/
-│   │       ├── __init__.py
-│   │       └── realsense_mediapipe_pose.py
-│   │
-│   ├── nrs_hand_teleop/
-│   │   ├── package.xml
-│   │   ├── setup.py
-│   │   ├── setup.cfg
-│   │   ├── resource/
-│   │   └── nrs_hand_teleop/
-│   │       ├── __init__.py
-│   │       └── hand_teleop_node.py
-│   │
-│   └── nrs_media_bringup/
-│       ├── package.xml
-│       ├── setup.py
-│       ├── setup.cfg
-│       ├── resource/
-│       └── nrs_media_bringup/
-│           └── __init__.py
-│
-├── build/
-├── install/
-├── log/
-└── README.md
+├── README.md
+└── src/
+    ├── nrs_mediapipe/
+    │   └── nrs_mediapipe/realsense_mediapipe_pose.py
+    ├── nrs_hand_teleop/
+    │   └── nrs_hand_teleop/hand_teleop_node.py
+    ├── face_gesture/
+    │   └── face_gesture/
+    │       ├── face_gesture_node.py
+    │       ├── face_gesture_node_v1.py
+    │       ├── face_gesture_node_v2.py
+    │       ├── face_gesture_node_v3.py
+    │       └── face_gesture_v1.py
+    └── nrs_media_bringup/
 ```
 
-## Package roles
+주요 패키지 역할:
 
-### `nrs_mediapipe`
-Perception package.
+- `nrs_mediapipe`: RealSense + MediaPipe Hands/Pose 인식, 손/상체 랜드마크 발행
+- `nrs_hand_teleop`: MediaPipe 손 랜드마크를 로봇 손 관절 목표값으로 변환
+- `face_gesture`: RealSense + MediaPipe Hands/Face Mesh 기반 얼굴/손 제스처 인식
+- `nrs_media_bringup`: launch/config 통합용 예약 패키지
 
-Main responsibilities:
-- capture color/depth frames from RealSense
-- run MediaPipe Hands and Pose
-- keep existing hand gesture / upper-body visualization logic
-- publish:
-  - `/mediapipe_hand_landmarks`
-  - `/upper_body_landmarks`
-  - `/hand_gesture`
-  - existing target / guided topics if needed
+## 요구 환경
 
-Main node:
-- `realsense_mediapipe_pose`
-
-### `nrs_hand_teleop`
-Teleoperation package.
-
-Main responsibilities:
-- subscribe to `/mediapipe_hand_landmarks`
-- compute finger flexion from MediaPipe hand landmarks
-- convert human hand motion into robot hand joint targets
-- publish:
-  - `/forward_hand_joint_targets`
-- request control mode:
-  - `arm_mode = idle`
-  - `hand_mode = forward`
-
-Main node:
-- `hand_teleop_node`
-
-### `nrs_media_bringup`
-Reserved integration package.
-
-Recommended future usage:
-- launch files
-- YAML config
-- full demo orchestration
-
----
-
-# 2. Dependency: Conda Environment and Python Library Installation
-
-## 2-1. Prerequisites
-
-Required system-level software:
+권장 환경:
 
 - Ubuntu 22.04
 - ROS 2 Humble
-- Intel RealSense SDK / `pyrealsense2`
-- a working conda installation
-- optional but recommended: `dualarm_ws` already built, because `nrs_hand_teleop` uses `dualarm_forcecon_interfaces`
+- Python 3.10 conda 환경
+- Intel RealSense 카메라, 예: D435
+- Intel RealSense SDK 2.0 또는 `pyrealsense2`
+- GUI 세션 또는 X11 forwarding 환경, `cv2.imshow()` 창 표시 필요
+- 선택: `dualarm_ws`, `dualarm_forcecon`, `dualarm_forcecon_interfaces`
 
----
+ROS 패키지 의존성:
 
-## 2-2. Create the conda environment
+- `rclpy`
+- `std_msgs`
+- `geometry_msgs`
+- `sensor_msgs`
+- `dualarm_forcecon_interfaces` (`nrs_hand_teleop` 실행 시 필요)
+- `ament_python`
+- 테스트용: `ament_copyright`, `ament_flake8`, `ament_pep257`, `pytest`
 
-This workspace is intended to run with the **`env_hand`** conda environment.
+Python/pip 의존성:
 
-Create it:
+- `mediapipe`
+- `opencv-python`
+- `numpy`
+- `pyrealsense2`
+- `setuptools`
+- `colcon-common-extensions`
+- `catkin_pkg`
+- `empy`
+- `lark`
+- `pytest`
+
+## 1. ROS 2 Humble 설치 확인
+
+ROS 2 Humble이 이미 설치되어 있다고 가정합니다. 설치 여부를 확인합니다.
+
+```bash
+source /opt/ros/humble/setup.bash
+ros2 --version
+```
+
+필요한 기본 ROS/빌드 패키지를 설치합니다.
+
+```bash
+sudo apt update
+sudo apt install -y \
+    python3-colcon-common-extensions \
+    python3-rosdep \
+    ros-humble-rclpy \
+    ros-humble-std-msgs \
+    ros-humble-geometry-msgs \
+    ros-humble-sensor-msgs \
+    ros-humble-ament-copyright \
+    ros-humble-ament-flake8 \
+    ros-humble-ament-pep257
+```
+
+`rosdep`를 처음 쓰는 장비라면 한 번만 초기화합니다.
+
+```bash
+sudo rosdep init
+rosdep update
+```
+
+이미 초기화되어 있다면 `sudo rosdep init`은 에러가 날 수 있으며, 그 경우 `rosdep update`만 실행하면 됩니다.
+
+## 2. RealSense 준비
+
+RealSense 카메라가 연결되어 있어야 하며, Python에서 `pyrealsense2`를 import할 수 있어야 합니다. 보통은 pip 패키지로 충분하지만, 장비에 따라 Intel RealSense SDK 2.0 설치가 먼저 필요할 수 있습니다.
+
+카메라 연결 확인:
+
+```bash
+lsusb | grep -i realsense
+```
+
+RealSense Viewer가 설치되어 있다면 카메라 스트림도 확인합니다.
+
+```bash
+realsense-viewer
+```
+
+## 3. conda 환경 생성
+
+이 워크스페이스는 `env_hand` conda 환경에서 빌드하고 실행하는 것을 기준으로 합니다.
 
 ```bash
 conda create -n env_hand python=3.10 -y
 conda activate env_hand
+python -m pip install --upgrade pip setuptools wheel
 ```
 
----
-
-## 2-3. Install Python libraries
-
-Install the Python packages used by MediaPipe / RealSense / ROS Python nodes:
+Python 라이브러리를 설치합니다.
 
 ```bash
-python3 -m pip install --upgrade pip
-python3 -m pip install \
+python -m pip install \
     mediapipe \
     opencv-python \
     numpy \
@@ -146,77 +138,87 @@ python3 -m pip install \
     catkin_pkg \
     empy \
     lark \
-    setuptools
+    pytest
 ```
 
-If `pyrealsense2` installation fails through pip on your machine, install RealSense SDK first and then verify import manually.
-
-Verify Python-side imports:
+설치 확인:
 
 ```bash
-python3 -c "import mediapipe, cv2, numpy, pyrealsense2; print('Python dependencies OK')"
+python -c "import cv2, mediapipe, numpy, pyrealsense2; print('Python dependencies OK')"
 ```
 
----
+중요: 이 워크스페이스는 반드시 `conda activate env_hand`가 된 상태에서 `colcon build`해야 합니다. 그렇지 않으면 `ros2 run` entry point가 시스템 Python을 사용해 `ModuleNotFoundError: No module named 'mediapipe'`가 발생할 수 있습니다.
 
-## 2-4. ROS 2 environment
+## 4. 외부 워크스페이스 의존성
 
-Every terminal used for this repository should source ROS 2 Humble first:
+`nrs_hand_teleop`는 다음 인터페이스를 import합니다.
 
-```bash
-source /opt/ros/humble/setup.bash
+```python
+from dualarm_forcecon_interfaces.srv import SetControlMode
 ```
 
-If you use `dualarm_forcecon` and `dualarm_forcecon_interfaces` from another workspace, also source that workspace before building or running `nrs_hand_teleop`:
+따라서 `nrs_hand_teleop`를 빌드/실행하려면 `dualarm_forcecon_interfaces`가 설치되어 있거나, 해당 패키지가 들어 있는 워크스페이스를 먼저 source해야 합니다.
+
+예시:
 
 ```bash
 source ~/dualarm_ws/install/setup.bash
 ```
 
----
+`dualarm_ws`가 없는 상태에서 전체 빌드를 하면 `dualarm_forcecon_interfaces`를 찾지 못해 빌드가 실패할 수 있습니다. 이 경우 아래처럼 해당 패키지를 제외하고 빌드할 수 있습니다.
 
-## 2-5. Build the workspace
+```bash
+colcon build --packages-skip nrs_hand_teleop
+```
 
-From the workspace root:
+## 5. 워크스페이스 빌드
+
+매 터미널에서 기본 순서는 conda 활성화 후 ROS 환경 source입니다.
 
 ```bash
 conda activate env_hand
 source /opt/ros/humble/setup.bash
-source ~/dualarm_ws/install/setup.bash   # if needed
+```
 
+`dualarm_forcecon_interfaces`가 필요한 경우 외부 워크스페이스도 source합니다.
+
+```bash
+source ~/dualarm_ws/install/setup.bash
+```
+
+빌드:
+
+```bash
 cd ~/nrs_media
+rosdep install --from-paths src --ignore-src -r -y
 colcon build
 source install/setup.bash
 ```
 
-### Important note about Python interpreter
-This workspace should be built **while `env_hand` is activated**.
+`dualarm_ws` 없이 비전 패키지만 빌드:
 
-Otherwise, `ros2 run` may use `/usr/bin/python3` instead of the conda Python, which can cause errors like:
-
-```text
-ModuleNotFoundError: No module named 'mediapipe'
+```bash
+cd ~/nrs_media
+rosdep install --from-paths src --ignore-src -r -y --skip-keys dualarm_forcecon_interfaces
+colcon build --packages-skip nrs_hand_teleop
+source install/setup.bash
 ```
 
-If needed, clean and rebuild:
+이미 잘못된 Python 환경에서 빌드했다면 산출물을 지우고 다시 빌드합니다.
 
 ```bash
 cd ~/nrs_media
 rm -rf build install log
 conda activate env_hand
 source /opt/ros/humble/setup.bash
-source ~/dualarm_ws/install/setup.bash   # if needed
+source ~/dualarm_ws/install/setup.bash
 colcon build
 source install/setup.bash
 ```
 
----
+## 6. 실행 전 터미널 설정
 
-# 3. Usage: Conda Activation and Node Execution
-
-## 3-1. Terminal setup rule
-
-For all terminals, use this basic order:
+`nrs_media` 노드를 실행하는 터미널에서는 다음 순서를 사용합니다.
 
 ```bash
 conda activate env_hand
@@ -224,93 +226,116 @@ source /opt/ros/humble/setup.bash
 source ~/nrs_media/install/setup.bash
 ```
 
-For teleoperation nodes that depend on `dualarm_forcecon_interfaces`, also source:
+`nrs_hand_teleop` 또는 `dualarm_forcecon_interfaces`가 필요한 노드는 다음처럼 외부 워크스페이스를 먼저 source합니다.
 
 ```bash
+conda activate env_hand
+source /opt/ros/humble/setup.bash
 source ~/dualarm_ws/install/setup.bash
+source ~/nrs_media/install/setup.bash
 ```
 
----
+## 7. nrs_mediapipe 실행
 
-## 3-2. Run the MediaPipe perception node
-
-This node captures RealSense images and publishes hand landmarks.
+RealSense 색상/깊이 프레임을 읽고 MediaPipe Hands/Pose를 실행합니다.
 
 ```bash
-conda activate env_hand
-source /opt/ros/humble/setup.bash
-source ~/nrs_media/install/setup.bash
-
 ros2 run nrs_mediapipe realsense_mediapipe_pose
 ```
 
-Published topics include:
+주요 발행 토픽:
 
-- `/mediapipe_hand_landmarks`
-- `/upper_body_landmarks`
-- `/hand_gesture`
+- `/mediapipe_hand_landmarks` (`std_msgs/msg/String`, JSON)
+- `/upper_body_landmarks` (`std_msgs/msg/String`, JSON)
+- `/hand_gesture` (`std_msgs/msg/String`)
+- `/target_pose` (`geometry_msgs/msg/Point`)
+- `/guided_target` (`geometry_msgs/msg/Point`)
+- `/surface_command` (`std_msgs/msg/String`)
 
-You can check the hand landmark topic with:
+구독 토픽:
+
+- `/robot_status` (`std_msgs/msg/String`)
+
+확인:
 
 ```bash
 ros2 topic echo /mediapipe_hand_landmarks
+ros2 topic echo /upper_body_landmarks
 ```
 
----
+OpenCV 창이 열리며, `q`를 누르면 종료됩니다.
 
-## 3-3. Run the hand teleoperation node
+## 8. nrs_hand_teleop 실행
 
-This node subscribes to `/mediapipe_hand_landmarks` and publishes `/forward_hand_joint_targets`.
+`/mediapipe_hand_landmarks`를 받아 로봇 손 30차원 목표 관절값을 발행합니다.
+
+먼저 `nrs_mediapipe` 노드가 실행 중이어야 합니다.
 
 ```bash
-conda activate env_hand
-source /opt/ros/humble/setup.bash
-source ~/dualarm_ws/install/setup.bash
-source ~/nrs_media/install/setup.bash
-
 ros2 run nrs_hand_teleop hand_teleop_node
 ```
 
-Main behavior:
-- reads left/right 21-point MediaPipe hand landmarks
-- estimates finger flexion
-- converts them into a 30D robot-hand target:
-  - `left15 + right15`
-- requests:
-  - `arm_mode = idle`
-  - `hand_mode = forward`
+주요 인터페이스:
 
-Check output:
+- 구독: `/mediapipe_hand_landmarks` (`std_msgs/msg/String`, JSON)
+- 발행: `/forward_hand_joint_targets` (`std_msgs/msg/Float64MultiArray`)
+- 서비스 클라이언트: `/change_control_mode` (`dualarm_forcecon_interfaces/srv/SetControlMode`)
+
+동작:
+
+- 왼손 15개 + 오른손 15개 = 총 30개 손 관절 목표값 발행
+- `/change_control_mode` 서비스로 `arm_mode=idle`, `hand_mode=forward` 요청
+
+확인:
 
 ```bash
 ros2 topic echo /forward_hand_joint_targets
 ```
 
----
+## 9. face_gesture 실행
 
-## 3-4. Run the robot control package
+`face_gesture` 패키지는 RealSense + MediaPipe Face Mesh/Hands 기반 얼굴/손 제스처 노드입니다.
 
-In another terminal, run your robot hand / dual-arm controller:
+빌드된 ROS entry point:
+
+```bash
+ros2 run face_gesture face_gesture_node
+```
+
+이 entry point는 `src/face_gesture/face_gesture/face_gesture_node.py`를 실행합니다.
+
+주요 발행 토픽:
+
+- `/left_hand` (`geometry_msgs/msg/Point`)
+- `/right_hand` (`geometry_msgs/msg/Point`)
+- `/face_pose` (`geometry_msgs/msg/Point`)
+- `/face_gesture_cmd` (`std_msgs/msg/String`)
+
+`face_gesture_node_v1.py`, `face_gesture_node_v2.py`, `face_gesture_node_v3.py`, `face_gesture_v1.py`는 현재 `setup.py`의 console script로 등록되어 있지 않습니다. 필요한 경우 Python 모듈로 직접 실행하거나 `setup.py`에 entry point를 추가해야 합니다.
+
+직접 실행 예시:
+
+```bash
+cd ~/nrs_media/src/face_gesture
+python -m face_gesture.face_gesture_node_v3
+```
+
+`face_gesture_node_v2.py`와 `face_gesture_node_v3.py`는 추가로 `/cmd_vel`, `/forward_aux_joint_targets` 같은 로봇 제어 토픽을 발행합니다. 로봇에 연결된 상태에서 실행할 때는 토픽 연결 상태를 먼저 확인하세요.
+
+## 10. 권장 실행 순서
+
+로봇 컨트롤러까지 포함하는 경우:
+
+터미널 1, 로봇 컨트롤러:
 
 ```bash
 source /opt/ros/humble/setup.bash
 source ~/dualarm_ws/install/setup.bash
-
 ros2 run dualarm_forcecon dualarm_forcecon_node
 ```
 
----
+터미널 2, MediaPipe 인식:
 
-## 3-5. Recommended execution order
-
-### Terminal 1: robot controller
-```bash
-source /opt/ros/humble/setup.bash
-source ~/dualarm_ws/install/setup.bash
-ros2 run dualarm_forcecon dualarm_forcecon_node
-```
-
-### Terminal 2: MediaPipe perception
 ```bash
 conda activate env_hand
 source /opt/ros/humble/setup.bash
@@ -318,7 +343,8 @@ source ~/nrs_media/install/setup.bash
 ros2 run nrs_mediapipe realsense_mediapipe_pose
 ```
 
-### Terminal 3: hand teleoperation
+터미널 3, 손 teleop:
+
 ```bash
 conda activate env_hand
 source /opt/ros/humble/setup.bash
@@ -327,67 +353,119 @@ source ~/nrs_media/install/setup.bash
 ros2 run nrs_hand_teleop hand_teleop_node
 ```
 
----
+비전 제스처 노드만 실행하는 경우:
 
-## 3-6. Recommended camera
-The current setup was successfully tested with **RealSense D435**.
+```bash
+conda activate env_hand
+source /opt/ros/humble/setup.bash
+source ~/nrs_media/install/setup.bash
+ros2 run face_gesture face_gesture_node
+```
 
-If you encounter unstable frame timeouts with another RealSense camera, verify:
-- USB connection quality
-- camera power stability
-- RealSense SDK installation
-- whether another process is already using the camera
+## 11. 테스트와 점검 명령
 
----
+패키지 목록 확인:
 
-## 3-7. Troubleshooting
+```bash
+ros2 pkg list | grep -E 'nrs_mediapipe|nrs_hand_teleop|face_gesture|nrs_media_bringup'
+```
 
-### 1. `ModuleNotFoundError: No module named 'mediapipe'`
-Cause:
-- workspace was built with system Python instead of the conda Python
+실행 파일 확인:
 
-Fix:
+```bash
+ros2 pkg executables nrs_mediapipe
+ros2 pkg executables nrs_hand_teleop
+ros2 pkg executables face_gesture
+```
+
+토픽 확인:
+
+```bash
+ros2 topic list
+ros2 topic info /mediapipe_hand_landmarks
+ros2 topic info /forward_hand_joint_targets
+```
+
+테스트 실행:
+
+```bash
+cd ~/nrs_media
+colcon test
+colcon test-result --verbose
+```
+
+## 12. 문제 해결
+
+### `ModuleNotFoundError: No module named 'mediapipe'`
+
+대부분 워크스페이스를 conda 환경이 아닌 시스템 Python으로 빌드했을 때 발생합니다.
+
 ```bash
 cd ~/nrs_media
 rm -rf build install log
 conda activate env_hand
 source /opt/ros/humble/setup.bash
-source ~/dualarm_ws/install/setup.bash   # if needed
+source ~/dualarm_ws/install/setup.bash
 colcon build
 source install/setup.bash
 ```
 
-### 2. `ros2 run` works differently from `python3 file.py`
-Cause:
-- installed entry-point may use a different interpreter than your current shell
+### `dualarm_forcecon_interfaces`를 찾을 수 없음
 
-Fix:
-- always build inside `env_hand`
-- always source `install/setup.bash` before running
+`nrs_hand_teleop`는 외부 서비스 타입이 필요합니다.
 
-### 3. RealSense frame timeout
-Example:
+```bash
+source ~/dualarm_ws/install/setup.bash
+```
+
+외부 워크스페이스 없이 비전 노드만 사용할 경우:
+
+```bash
+colcon build --packages-skip nrs_hand_teleop
+```
+
+### RealSense frame timeout
+
+예시:
+
 ```text
 RuntimeError: Frame didn't arrive within 5000
 ```
 
-Fix:
-- reconnect the camera
-- check USB 3.x connection
-- close other processes using RealSense
-- prefer D435 if it is more stable in your setup
+확인할 항목:
 
----
+- USB 3.x 포트에 직접 연결되어 있는지
+- 다른 프로세스가 카메라를 사용 중인지
+- `realsense-viewer`에서 스트림이 정상인지
+- 케이블 또는 허브 전원이 안정적인지
 
-# Current Status
+### OpenCV 창이 뜨지 않음
 
-Implemented:
-- MediaPipe Hands + Pose perception
-- `/mediapipe_hand_landmarks` publishing
-- hand-only teleoperation to `/forward_hand_joint_targets`
+이 노드들은 `cv2.imshow()`를 사용합니다. SSH 환경에서는 X11 forwarding 또는 실제 디스플레이 세션이 필요합니다.
 
-Planned / recommended next steps:
-- add launch files in `nrs_media_bringup`
-- add YAML parameter files
-- add custom ROS messages instead of `String(JSON)`
-- extend from hand-only teleop to full upper-body / arm teleop
+```bash
+echo $DISPLAY
+```
+
+값이 비어 있으면 GUI 창을 띄울 수 없습니다.
+
+### `ros2 run`은 실패하지만 `python -m ...`은 동작함
+
+빌드 시점의 Python interpreter와 현재 conda Python이 다를 가능성이 큽니다. `env_hand`를 활성화한 뒤 clean build 하세요.
+
+## 13. 현재 구현 상태
+
+구현됨:
+
+- RealSense + MediaPipe Hands/Pose 인식
+- RealSense + MediaPipe Face Mesh 기반 얼굴/손 제스처 인식
+- `/mediapipe_hand_landmarks`, `/upper_body_landmarks`, `/hand_gesture` 발행
+- `/mediapipe_hand_landmarks` 기반 30차원 손 teleop 목표값 발행
+- 일부 face gesture 노드의 `/cmd_vel`, `/forward_aux_joint_targets` 발행
+
+추가 권장 작업:
+
+- `nrs_media_bringup`에 launch 파일 추가
+- YAML 파라미터 파일 추가
+- JSON 문자열 대신 custom ROS message 도입
+- `face_gesture_node_v1/v2/v3` entry point 정리
