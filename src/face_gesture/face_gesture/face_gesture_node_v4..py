@@ -21,6 +21,7 @@ class UltraLightMultiTracker(Node):
         self.gesture_pub = self.create_publisher(String, '/face_gesture_cmd', 10)
         self.joint_pub = self.create_publisher(Float64MultiArray, '/forward_hand_joint_targets', 10)
         
+        # 모빌리티(/cmd_vel) 및 몸체(/forward_aux_joint_targets) 퍼블리셔
         self.cmd_vel_pub = self.create_publisher(Twist, '/cmd_vel', 10)
         self.aux_joint_pub = self.create_publisher(JointState, '/forward_aux_joint_targets', 10)
 
@@ -52,18 +53,14 @@ class UltraLightMultiTracker(Node):
         self.calibration_duration = 5.0
         self.calibration_start_time = None
         self.baseline_eyebrow_ratios = []
-        self.baseline_ears = []
         self.calibrated_eyebrow_ratio = 0.10 
-        self.calibrated_ear = 0.25 
         
         self.current_state = "IDLE"
+        self.right_fist_timer = 0.0
         
-        # [변경] 오른손 주먹 타이머 대신 뽀뽀 표정(Kiss) 리셋 타이머 도입
-        self.kiss_reset_timer = 0.0
-        
+        # Wink 제거됨. 고개 돌리기 및 눈썹 올리기만 유지 (v3 기준)
         self.gesture_timers = {
-            "TURN_LEFT": 0.0, "TURN_RIGHT": 0.0,
-            "EYEBROW_RAISE": 0.0, "WINK_LEFT": 0.0, "WINK_RIGHT": 0.0
+            "TURN_LEFT": 0.0, "TURN_RIGHT": 0.0, "EYEBROW_RAISE": 0.0
         }
         
         self.last_gesture_time = time.time()
@@ -71,17 +68,10 @@ class UltraLightMultiTracker(Node):
         self.active_gesture_msg = "State: IDLE (Ready for Gesture)"
         self.msg_clear_time = 0.0    
 
-        self.robot_moving = False
-
         self.CMD_1_OPEN = [0.0] * 40
-        self.CMD_6_L_CLOSE_R_OPEN = [0.2, 0.3, 0.3, 0.3,  0.3, 0.5, 0.5, 0.5,  0.3, 0.5, 0.5, 0.5,  0.3, 0.5, 0.5, 0.5,  0.3, 0.5, 0.5, 0.5,  
-                                     0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0]
-        self.CMD_7_L_OPEN_R_CLOSE = [0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,  0.0, 0.0, 0.0, 0.0,  
-                                     0.2, 0.3, 0.3, 0.3,  0.3, 0.5, 0.5, 0.5,  0.3, 0.5, 0.5, 0.5,  0.3, 0.5, 0.5, 0.5,  0.3, 0.5, 0.5, 0.5]
 
         self.joint_names = ['torso_0', 'torso_1', 'torso_2', 'torso_3', 'torso_4', 'torso_5']
         self.joint_velocities = [2.0, 2.0, 2.0, 2.0, 2.0, 2.0]
-        
         self.pos_turn_left = [0.0, 0.0875, 0.0883, -0.1739, 0.0, 1.5708]
         self.pos_turn_right = [0.0, 0.0875, 0.0883, -0.1739, 0.0, -1.5708]
         self.pos_center = [0.0, 0.0875, 0.0883, -0.1739, 0.0, 0.0]
@@ -101,13 +91,6 @@ class UltraLightMultiTracker(Node):
         joint_state.position = positions
         joint_state.velocity = self.joint_velocities
         self.aux_joint_pub.publish(joint_state)
-
-    def get_eye_aspect_ratio(self, landmarks, top, bottom, left, right):
-        v_dist = np.linalg.norm(np.array([landmarks[top].x, landmarks[top].y]) - 
-                                np.array([landmarks[bottom].x, landmarks[bottom].y]))
-        h_dist = np.linalg.norm(np.array([landmarks[left].x, landmarks[left].y]) - 
-                                np.array([landmarks[right].x, landmarks[right].y]))
-        return v_dist / h_dist if h_dist > 0 else 0
 
     def is_fist(self, landmarks):
         wrist = np.array([landmarks[0].x, landmarks[0].y, landmarks[0].z])
@@ -160,54 +143,42 @@ class UltraLightMultiTracker(Node):
                     left_eyebrow_raise = abs(lm[159].y - lm[105].y); right_eyebrow_raise = abs(lm[386].y - lm[334].y)
                     face_height = abs(lm[10].y - lm[152].y) + 1e-6
                     eyebrow_ratio = ((left_eyebrow_raise + right_eyebrow_raise) / 2.0) / face_height
-                    left_ear = self.get_eye_aspect_ratio(lm, 159, 145, 33, 133); right_ear = self.get_eye_aspect_ratio(lm, 386, 374, 362, 263)
-                    avg_ear = (left_ear + right_ear) / 2.0
 
                     if self.calibration_start_time is None: self.calibration_start_time = current_time
                     if self.is_calibrating:
                         elapsed_calib = current_time - self.calibration_start_time
                         if elapsed_calib < self.calibration_duration:
-                            self.baseline_eyebrow_ratios.append(eyebrow_ratio); self.baseline_ears.append(avg_ear) 
+                            self.baseline_eyebrow_ratios.append(eyebrow_ratio)
                             cv2.putText(display, f"CALIBRATION: {self.calibration_duration - elapsed_calib:.1f}s", (180, 200), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 3)
                             continue 
                         else:
                             self.is_calibrating = False
-                            if self.baseline_eyebrow_ratios and self.baseline_ears:
+                            if self.baseline_eyebrow_ratios:
                                 self.calibrated_eyebrow_ratio = sum(self.baseline_eyebrow_ratios) / len(self.baseline_eyebrow_ratios)
-                                self.calibrated_ear = sum(self.baseline_ears) / len(self.baseline_ears)
 
                     dx, dz = lm[454].x - lm[234].x, lm[454].z - lm[234].z
                     yaw_angle = math.degrees(math.atan2(dz, dx)) 
-                    
-                    # 입 벌림 수치 계산 (기존 전진용)
-                    mouth_open_ratio = abs(lm[13].y - lm[14].y) / face_height
-                    is_mouth_open = mouth_open_ratio > 0.05 
-                    
-                    # [추가] 뽀뽀 표정(입술 오므리기) 인식 알고리즘
-                    # 입술 바깥쪽 가로폭(61번, 291번)과 세로폭(0번, 17번) 간의 비율 추적
-                    mouth_width = np.linalg.norm(np.array([lm[61].x, lm[61].y]) - np.array([lm[291].x, lm[291].y]))
-                    mouth_height = np.linalg.norm(np.array([lm[0].x, lm[0].y]) - np.array([lm[17].x, lm[17].y]))
-                    # 평소 입술은 가로가 세로보다 훨씬 길지만, 오므리면 세로/가로 비율이 급격히 증가함
-                    kiss_ratio = mouth_height / (mouth_width + 1e-6)
-                    # 입을 벌리지 않은 상태(전진 명령 방지)에서 입술만 동그랗게 모았을 때 참
-                    is_kiss_lip = (kiss_ratio > 0.55) and (mouth_open_ratio < 0.03)
-
+                    is_mouth_open = (abs(lm[13].y - lm[14].y) / face_height) > 0.05 
                     is_eyebrow_raise = eyebrow_ratio > (self.calibrated_eyebrow_ratio * 1.15)
-                    is_wink_left = left_ear < (self.calibrated_ear * 0.65) and right_ear > (self.calibrated_ear * 0.75)
-                    is_wink_right = right_ear < (self.calibrated_ear * 0.65) and left_ear > (self.calibrated_ear * 0.75)
 
-                    # [기능 1] 입 벌리기 실시간 제어 구문 (기존 유지)
+                    # ---------------------------------------------------------
+                    # [핵심 수정] 아이작 심 대응 -r 20 (연속 발행) 로직
+                    # ---------------------------------------------------------
+                    # 1회성 발행 플래그를 버리고, 루프가 도는 매 프레임마다(약 30Hz)
+                    # 현재 입 상태에 맞는 속도를 무조건 지속적으로 퍼블리시합니다.
+                    
                     if is_mouth_open:
-                        self.send_speed_cmd(linear_x=0.3, angular_z=0.0)
-                        self.robot_moving = True
+                        current_speed = 0.3
                         if self.current_state == "IDLE":
                             self.active_gesture_msg = "Mouth Open : Robot Moving Forward"
                     else:
-                        if self.robot_moving:
-                            self.send_speed_cmd(linear_x=0.0, angular_z=0.0)
-                            self.robot_moving = False
-                            if self.current_state == "IDLE":
-                                self.active_gesture_msg = "Mouth Closed : Robot Stopped"
+                        current_speed = 0.0
+                        if self.current_state == "IDLE":
+                            self.active_gesture_msg = "Mouth Closed : Robot Stopped"
+                            
+                    # 매 프레임마다 끊임없이 0.3 또는 0.0을 보냅니다 (터미널의 -r 20과 동일한 효과)
+                    self.send_speed_cmd(linear_x=current_speed, angular_z=0.0)
+                    # ---------------------------------------------------------
 
                     def check_gesture(name, condition, duration_req):
                         if condition:
@@ -216,20 +187,16 @@ class UltraLightMultiTracker(Node):
                             return elapsed >= duration_req, elapsed
                         self.gesture_timers[name] = 0.0; return False, 0.0
 
-                    # v1 기반 인터페이스 제어 구문 (타이머 판단 및 잠금)
+                    # 안면 제스처 (Wink 삭제됨)
                     if self.current_state == "IDLE":
                         t_left_trig, t_left_el = check_gesture("TURN_LEFT", yaw_angle < -25.0, 3.0)
                         t_right_trig, t_right_el = check_gesture("TURN_RIGHT", yaw_angle > 25.0, 3.0)
                         brow_trig, brow_el = check_gesture("EYEBROW_RAISE", is_eyebrow_raise, 2.0)
-                        wink_l_trig, wink_l_el = check_gesture("WINK_LEFT", is_wink_left, 2.0)
-                        wink_r_trig, wink_r_el = check_gesture("WINK_RIGHT", is_wink_right, 2.0)
 
                         triggered_gesture = None
                         if t_left_trig: triggered_gesture = "TURN_LEFT"
                         elif t_right_trig: triggered_gesture = "TURN_RIGHT"
                         elif brow_trig: triggered_gesture = "EYEBROW_RAISE"
-                        elif wink_l_trig: triggered_gesture = "WINK_LEFT"
-                        elif wink_r_trig: triggered_gesture = "WINK_RIGHT"
 
                         if triggered_gesture:
                             self.current_state = triggered_gesture
@@ -245,37 +212,66 @@ class UltraLightMultiTracker(Node):
                             elif triggered_gesture == "EYEBROW_RAISE":
                                 self.send_aux_joint_cmd(self.pos_center)
                                 self.active_gesture_msg = "Eyebrow Raise : Return waist to center"
-                            elif triggered_gesture == "WINK_LEFT": 
-                                self.joint_pub.publish(Float64MultiArray(data=self.CMD_6_L_CLOSE_R_OPEN))
-                                self.active_gesture_msg = "Wink Left : Left hand close, Right hand open"
-                            elif triggered_gesture == "WINK_RIGHT": 
-                                self.joint_pub.publish(Float64MultiArray(data=self.CMD_7_L_OPEN_R_CLOSE))
-                                self.active_gesture_msg = "Wink Right : Left hand open, Right hand close"
 
                             self.gesture_timers[triggered_gesture] = 0.0 
                     else:
                         for k in self.gesture_timers: self.gesture_timers[k] = 0.0
-                        t_left_el = t_right_el = brow_el = wink_l_el = wink_r_el = 0.0
+                        t_left_el = t_right_el = brow_el = 0.0
 
-                    # [변경] 뽀뽀 표정 기반 리셋 시스템 (1.5초 유지 시 IDLE 전환)
-                    kiss_elapsed = 0.0
+                    # V3 기준 리셋 제스처 (오른손 주먹 3초 유지)
+                    fist_elapsed = 0.0
                     if self.current_state != "IDLE":
-                        if is_kiss_lip:
-                            if self.kiss_reset_timer == 0.0: self.kiss_reset_timer = current_time
-                            kiss_elapsed = current_time - self.kiss_reset_timer
-                            if kiss_elapsed >= 1.5:
+                        if is_right_fist_active:
+                            if self.right_fist_timer == 0.0: self.right_fist_timer = current_time
+                            fist_elapsed = current_time - self.right_fist_timer
+                            if fist_elapsed >= 3.0:
                                 self.current_state = "IDLE"
-                                self.active_gesture_msg = "Kiss Gesture : Reset hand joints to open"
+                                self.active_gesture_msg = "Right Fist : Reset hand joints to open"
                                 self.msg_clear_time = current_time + 2.0
                                 self.gesture_pub.publish(String(data="IDLE"))
                                 
-                                # 손 초기화 발행
                                 self.joint_pub.publish(Float64MultiArray(data=self.CMD_1_OPEN))
-                                self.kiss_reset_timer = 0.0
-                        else: self.kiss_reset_timer = 0.0
+                                self.right_fist_timer = 0.0
+                        else: self.right_fist_timer = 0.0
 
-                    # 인터페이스 텍스트 출력 로직 정리
+                    # 인터페이스 텍스트 렌더링
                     text_color = (0, 165, 255)
                     if current_time < self.msg_clear_time: 
                         display_text = self.active_gesture_msg
-                        text_
+                        text_color = (0, 0, 255) 
+                    elif self.current_state != "IDLE":
+                        if is_right_fist_active: 
+                            display_text = f"Resetting to IDLE... {fist_elapsed:.1f}s / 3.0s"
+                            text_color = (0, 255, 255)
+                        else: 
+                            display_text = f"LOCKED: {self.current_state} (Right Fist 3s to Reset)"
+                            text_color = (0, 0, 255)
+                    else:
+                        if t_left_el > 0: display_text = f"Turning Left... {t_left_el:.1f}s / 3.0s"
+                        elif t_right_el > 0: display_text = f"Turning Right... {t_right_el:.1f}s / 3.0s"
+                        elif brow_el > 0: display_text = f"Raising Brows... {brow_el:.1f}s / 2.0s"
+                        else: 
+                            display_text = self.active_gesture_msg
+                            text_color = (0, 255, 0) if not is_mouth_open else (0, 0, 255)
+                        
+                    cv2.putText(display, display_text, (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.6, text_color, 2)
+                    if not self.is_calibrating: cv2.putText(display, f"Yaw: {yaw_angle:.1f}", (520, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
+
+            elapsed = time.time() - start_time; fps = 1.0 / elapsed if elapsed > 0 else 30.0
+            cv2.putText(display, f"FPS: {fps:.1f} | Hand & Face Control v6", (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
+            cv2.imshow('Ultra Light Tracker', display)
+            if cv2.waitKey(1) & 0xFF == ord('q'): break
+            time.sleep(max(0, (1.0 / 30.0) - (time.time() - start_time)))
+
+    def destroy_node(self):
+        # 종료 시 확실하게 멈추도록 마지막으로 0.0 전송
+        self.send_speed_cmd(0.0, 0.0)
+        self.is_running = False; self.vision_thread.join(); self.pipeline.stop(); cv2.destroyAllWindows(); super().destroy_node()
+
+def main(args=None):
+    rclpy.init(args=args); node = UltraLightMultiTracker()
+    try: rclpy.spin(node)
+    except KeyboardInterrupt: pass
+    finally: node.destroy_node()
+
+if __name__ == '__main__': main()
